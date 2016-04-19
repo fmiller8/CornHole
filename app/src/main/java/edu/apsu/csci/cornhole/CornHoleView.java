@@ -42,7 +42,7 @@ public class CornHoleView extends View {
        /* backgroundPaint = new Paint();
         backgroundPaint.setColor(Color.WHITE);
         backgroundPaint.setStyle(Paint.Style.FILL);*/
-
+//
     }
 
     @Override
