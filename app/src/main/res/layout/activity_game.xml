@@ -22,7 +22,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Player 2"
         android:id="@+id/textView2"
-        android:textColor="#0000ff"
+
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
 
@@ -40,18 +40,19 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
-        android:textColor="#0000ff"
+
         android:id="@+id/player2score_textView3"
         android:layout_below="@+id/textView2"
         android:layout_alignParentEnd="true" />
 
     <edu.apsu.csci.cornhole.CornHoleView
+        android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/chv"
+
         android:layout_below="@+id/player1score_textView"
-        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignEnd="@+id/textView2"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
