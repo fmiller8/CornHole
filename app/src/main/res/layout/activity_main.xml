@@ -10,8 +10,9 @@
         android:layout_height="wrap_content"
         android:text="Play"
         android:id="@+id/play_button"
-        android:layout_above="@+id/info_button"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/green_button"
+        android:layout_above="@+id/info_button" />
 
     <Button
         android:layout_width="wrap_content"
@@ -19,7 +20,8 @@
         android:text="Info"
         android:id="@+id/info_button"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/green_button"/>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -28,4 +30,14 @@
         android:src="@drawable/mainlogo"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:src="@drawable/title_logo"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="76dp"
+        android:layout_alignEnd="@+id/imageView" />
 </RelativeLayout>
