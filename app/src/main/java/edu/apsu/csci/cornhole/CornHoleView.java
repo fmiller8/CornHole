@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 
 /**
@@ -14,7 +16,13 @@ public class CornHoleView extends View {
     private int currentWidth;
     private int currentHeight;
 
+    private float dpiHeightPixels;
+    private float dpiWidthPixels;
+    private float dpiHolePixels;
+
+
     private Paint boardPaint;
+    private Paint boardHolePaint;
     private Paint backgroundPaint;
 
     public CornHoleView(Context context) {
@@ -39,17 +47,36 @@ public class CornHoleView extends View {
         boardPaint.setColor(Color.BLUE);
         boardPaint.setStyle(Paint.Style.FILL);
 
-       /* backgroundPaint = new Paint();
+        boardHolePaint= new Paint();
+        boardHolePaint.setColor(Color.WHITE);
+        boardHolePaint.setStyle(Paint.Style.FILL);
+
+        float dpiHeight = 200;
+        float dpiWidth = 125;
+        float dpiHole = 40;
+
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        dpiHeightPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpiHeight,dm);
+        dpiWidthPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpiWidth,dm);
+        dpiHolePixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpiHole,dm);
+
+        backgroundPaint = new Paint();
         backgroundPaint.setColor(Color.WHITE);
-        backgroundPaint.setStyle(Paint.Style.FILL);*/
-//
+        backgroundPaint.setStyle(Paint.Style.FILL);
+
+
+
     }
 
     @Override
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
-        //canvas.drawPaint(backgroundPaint);
-        canvas.drawRect(100,100,200,200,boardPaint);
+        canvas.drawPaint(backgroundPaint);
+        canvas.drawRect(getLeft()+(getRight()-getLeft())/4,  getTop()+(getBottom()-getTop())/200
+                ,getLeft()+(getRight()-getLeft())/4+dpiWidthPixels,getTop()+(getBottom()-getTop())/200+dpiHeightPixels,boardPaint);
+
+        canvas.drawOval((float) (getLeft()+(getRight()-getLeft())/2.5),getTop()+(getBottom()-getTop())/40
+                , (float) (getLeft()+(getRight()-getLeft())/2.5+dpiHolePixels),getTop()+(getBottom()-getTop())/40+dpiHolePixels,boardHolePaint);
 
     }
 
