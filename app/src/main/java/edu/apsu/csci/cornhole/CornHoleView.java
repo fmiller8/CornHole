@@ -21,10 +21,12 @@ public class CornHoleView extends View {
     private float dpiHeightPixels;
     private float dpiWidthPixels;
     private float dpiHolePixels;
+    private float dpiBagPixels;
 
 
     private Paint boardPaint;
     private Paint boardHolePaint;
+    private Paint bagPaint;
     //private Paint backgroundPaint;
 
     public CornHoleView(Context context) {
@@ -53,14 +55,22 @@ public class CornHoleView extends View {
         boardHolePaint.setColor(Color.RED);
         boardHolePaint.setStyle(Paint.Style.FILL);
 
+        bagPaint = new Paint();
+        bagPaint.setColor(Color.BLACK);
+        bagPaint.setStyle(Paint.Style.FILL);
+
+
+
         float dpiHeight = 200;
         float dpiWidth = 125;
         float dpiHole = 40;
+        float dpiBag = 34;
 
         DisplayMetrics dm = getResources().getDisplayMetrics();
         dpiHeightPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpiHeight,dm);
         dpiWidthPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpiWidth,dm);
         dpiHolePixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpiHole,dm);
+        dpiBagPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpiBag,dm);
 
        /* backgroundPaint = new Paint();
         backgroundPaint.setColor(Color.WHITE);
@@ -77,8 +87,13 @@ public class CornHoleView extends View {
         canvas.drawRect(getLeft()+(getRight()-getLeft())/4,  getTop()+(getBottom()-getTop())/200
                 ,getLeft()+(getRight()-getLeft())/4+dpiWidthPixels,getTop()+(getBottom()-getTop())/200+dpiHeightPixels,boardPaint);
 
-        canvas.drawOval((float) (getLeft()+(getRight()-getLeft())/2.5),getTop()+(getBottom()-getTop())/40
-                , (float) (getLeft()+(getRight()-getLeft())/2.5+dpiHolePixels),getTop()+(getBottom()-getTop())/40+dpiHolePixels,boardHolePaint);
+        canvas.drawOval((float) (getLeft() + (getRight() - getLeft()) / 2.5), getTop() + (getBottom() - getTop()) / 40
+                , (float) (getLeft() + (getRight() - getLeft()) / 2.5 + dpiHolePixels),
+                getTop() + (getBottom() - getTop()) / 40 + dpiHolePixels, boardHolePaint);
+
+        canvas.drawRect((float)(getLeft() + (getRight() - getLeft()) / 2.5), getHeight() - 1 - dpiBagPixels
+                , (float) (getLeft() + (getRight() - getLeft()) / 2.5 + dpiBagPixels),
+                getHeight() - 1, bagPaint);
 
     }
 
@@ -131,8 +146,5 @@ public class CornHoleView extends View {
     }
 
 
-    private class Bag{
 
-
-    }
 }
