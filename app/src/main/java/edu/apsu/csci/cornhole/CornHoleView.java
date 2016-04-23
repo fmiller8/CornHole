@@ -4,19 +4,30 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 
 /**
  * Created by Frank on 4/18/2016.
  */
-public class CornHoleView extends View {
+public class CornHoleView extends View implements View.OnTouchListener {
     private int currentWidth;
     private int currentHeight;
 
+
+
+    private Handler handler;
+    private AnimationRunnable animationRunnable;
+
+
     private int round;
+    private int power;
+    private int direction;
 
     private float dpiHeightPixels;
     private float dpiWidthPixels;
@@ -27,6 +38,7 @@ public class CornHoleView extends View {
     private Paint boardPaint;
     private Paint boardHolePaint;
     private Paint bagPaint;
+    public float bagX1,bagY1,bagX2,bagY2;
     //private Paint backgroundPaint;
 
     public CornHoleView(Context context) {
@@ -76,6 +88,11 @@ public class CornHoleView extends View {
         backgroundPaint.setColor(Color.WHITE);
         backgroundPaint.setStyle(Paint.Style.FILL);*/
 
+        bagX1 = (float)(getLeft() + (getRight() - getLeft()) / 2.5);
+        bagY1 = getHeight() - 1 - dpiBagPixels;
+        bagX2 = (float) (getLeft() + (getRight() - getLeft()) / 2.5 + dpiBagPixels);
+        bagY2 = getHeight() - 1;
+
 
 
     }
@@ -91,9 +108,7 @@ public class CornHoleView extends View {
                 , (float) (getLeft() + (getRight() - getLeft()) / 2.5 + dpiHolePixels),
                 getTop() + (getBottom() - getTop()) / 40 + dpiHolePixels, boardHolePaint);
 
-        canvas.drawRect((float)(getLeft() + (getRight() - getLeft()) / 2.5), getHeight() - 1 - dpiBagPixels
-                , (float) (getLeft() + (getRight() - getLeft()) / 2.5 + dpiBagPixels),
-                getHeight() - 1, bagPaint);
+        canvas.drawRect(bagX1, bagY1, bagX2, bagY2, bagPaint);
 
     }
 
@@ -143,6 +158,81 @@ public class CornHoleView extends View {
 
         //MUST CALL THIS
         setMeasuredDimension(width, height);
+    }
+
+    public void start() {
+        if (handler == null) {
+            handler = new Handler();
+            animationRunnable = new AnimationRunnable();
+            handler.post(animationRunnable);
+        }
+    }
+
+    public void stop() {
+        if (handler != null) {
+            handler = null;
+            animationRunnable = null;
+        }
+    }
+
+    public float downX,downY,upX,upY;
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+
+        Log.i("onTouch", "In onTouch");
+        int action = event.getAction();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                downX = event.getX();
+                downY = event.getY();
+                Log.i("onTouch", "downX" + downX + ", downY" + downY);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                break;
+            case MotionEvent.ACTION_UP:
+                upX = event.getX();
+                upY = event.getY();
+                Log.i("onTouch", "upX" + upX + ", upY" + upY);
+
+
+
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                break;
+
+        }
+
+        if (downX >= getLeft() + (getRight() - getLeft()) / 2.5 && downX <= getLeft() + (getRight() - getLeft()) / 2.5 + dpiBagPixels
+                && downY >= getHeight() - 1 - dpiBagPixels && downY <= getHeight() - 1 ) {
+
+            power = (int) (downY - upY);
+
+            Log.i("Power", "Power is " + power);
+
+            if (downX > upX) {
+                direction = (int) (downX - upX);
+            } else if (downX < upX) {
+                direction = (int) (upX - downX);
+            }
+
+            Log.i("Direction", "Direction is" + direction);
+
+            start();
+
+        }
+
+        return true;
+    }
+
+
+    public class AnimationRunnable implements Runnable{
+
+        @Override
+        public void run() {
+
+        }
     }
 
 
