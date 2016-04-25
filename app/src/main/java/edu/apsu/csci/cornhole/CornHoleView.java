@@ -16,10 +16,6 @@ import android.view.View;
  * Created by Frank on 4/18/2016.
  */
 public class CornHoleView extends View implements View.OnTouchListener {
-    private int currentWidth;
-    private int currentHeight;
-
-
 
     private Handler handler;
     private AnimationRunnable animationRunnable;
@@ -27,7 +23,7 @@ public class CornHoleView extends View implements View.OnTouchListener {
 
     private int round;
     private int power;
-    private int direction;
+    private float direction;
 
     private float dpiHeightPixels;
     private float dpiWidthPixels;
@@ -130,8 +126,7 @@ public class CornHoleView extends View implements View.OnTouchListener {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        currentWidth = w;
-        currentHeight = h;
+
 
         bagX1 = (float)(getLeft() + (getRight() - getLeft()) / 2.5);
         bagY1 = getHeight() - 1 - dpiBagPixels;
@@ -245,10 +240,10 @@ public class CornHoleView extends View implements View.OnTouchListener {
             Log.i("Power", "Power is " + power);
 
             if (dX > uX) {
-                direction = (int) (dX - uX)/50;
+                direction = (int) (dX - uX)/20;
                 direction = 0-direction;
             } else if (dX < uX) {
-                direction = (int) (uX - dX)/50;
+                direction = (int) (uX - dX)/20;
             }
 
             Log.i("Direction", "Direction is " + direction);
@@ -280,7 +275,7 @@ public class CornHoleView extends View implements View.OnTouchListener {
 
             postInvalidate();
             if (handler != null) {
-                handler.postDelayed(animationRunnable, 10);
+                handler.postDelayed(animationRunnable, 1);
             }
 
 
