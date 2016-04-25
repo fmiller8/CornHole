@@ -224,7 +224,7 @@ public class CornHoleView extends View implements View.OnTouchListener {
                 Log.i("onTouch", "upX" + upX + ", upY" + upY);
 
 
-                setPowerAndDirection(downX,downY,upX,upY);
+                setPowerAndDirection(downX, downY, upX, upY);
                 break;
             case MotionEvent.ACTION_CANCEL:
                 break;
@@ -245,10 +245,10 @@ public class CornHoleView extends View implements View.OnTouchListener {
             Log.i("Power", "Power is " + power);
 
             if (dX > uX) {
-                direction = (int) (dX - uX)/10;
+                direction = (int) (dX - uX)/50;
                 direction = 0-direction;
             } else if (dX < uX) {
-                direction = (int) (uX - dX)/10;
+                direction = (int) (uX - dX)/50;
             }
 
             Log.i("Direction", "Direction is " + direction);
@@ -260,21 +260,27 @@ public class CornHoleView extends View implements View.OnTouchListener {
 
     }
 
-
+    private int temp = 0;
     public class AnimationRunnable implements Runnable{
+
+
 
         @Override
         public void run() {
 
             bagX1+=direction;
             bagY1=bagY1-5;
+            if (power <= temp){
+                stop();
+            }
+            temp=temp+2;
 
 
 
 
             postInvalidate();
             if (handler != null) {
-                handler.postDelayed(animationRunnable, 50);
+                handler.postDelayed(animationRunnable, 10);
             }
 
 
