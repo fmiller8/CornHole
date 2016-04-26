@@ -11,6 +11,8 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -21,6 +23,9 @@ public class CornHoleView extends View implements View.OnTouchListener {
 
     private Handler handler;
     private AnimationRunnable animationRunnable;
+
+    private int player1Score = 0;
+    private int player2Score = 0;
 
 
 
@@ -64,6 +69,8 @@ public class CornHoleView extends View implements View.OnTouchListener {
         boardHolePaint= new Paint();
         boardHolePaint.setColor(Color.RED);
         boardHolePaint.setStyle(Paint.Style.FILL);
+
+        setBag();
 
 
 
@@ -109,7 +116,7 @@ public class CornHoleView extends View implements View.OnTouchListener {
 
         Log.i("onDraw ", "X1 " + String.valueOf((float) (getLeft() + (getRight() - getLeft()) / 2.5)));
         Log.i("onDraw ","X2 " + (getHeight() - 1 - dpiBagPixels));
-        Log.i("onDraw ","Y1 " + (float) (getLeft() + (getRight() - getLeft()) / 2.5 + dpiBagPixels));
+        Log.i("onDraw ", "Y1 " + (float) (getLeft() + (getRight() - getLeft()) / 2.5 + dpiBagPixels));
         Log.i("onDraw ", "Y2 " + (getHeight() - 1));
 
     }
@@ -118,13 +125,42 @@ public class CornHoleView extends View implements View.OnTouchListener {
         float bagX1 = (float)(getLeft() + (getRight() - getLeft()) / 2.5);
         float bagY1 = getHeight() - 1 - dpiBagPixels;
 
+
+
         bag = new BeanBag(bagX1, bagY1);
+
+        switch (id){
+            case 1:
+
+
+                bag.setColor("BLACK");
+                if(bags.size() >= 8){
+                    bags.clear();
+                }
+                id++;
+
+                break;
+            case 2:
+                bag.setColor("CYAN");
+                if(bags.size() >= 8){
+                    bags.clear();
+                }
+
+
+                id--;
+
+                break;
+        }
 
         power =0;
         direction=0;
         temp=0;
 
     }
+
+    int id =1;
+
+
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -145,7 +181,7 @@ public class CornHoleView extends View implements View.OnTouchListener {
 
 
         Log.i("Setup ", "getLeft() "+getLeft());
-        Log.i("Setup","getRight()"+ getRight());
+        Log.i("Setup", "getRight()" + getRight());
     }
 
     @Override //Does magical stuff as described by Dr. Nicholson and stack over flow
@@ -196,7 +232,7 @@ public class CornHoleView extends View implements View.OnTouchListener {
             handler.post(animationRunnable);
         }
     }
-//
+
     public void stop() {
         if (handler != null) {
             handler = null;
@@ -206,6 +242,7 @@ public class CornHoleView extends View implements View.OnTouchListener {
         bag = new BeanBag(bag.getBagX1(), bag.getBagY1(),bag.bagPaint);
         bags.add(bag);
         setBag();
+
 
         invalidate();
 
@@ -326,21 +363,14 @@ public class CornHoleView extends View implements View.OnTouchListener {
             this.bagY1 = bagY1;
         }
 
-        public String getColor() {
-            return color;
-        }
+
 
         public void setColor(String color) {
+            bagPaint.setColor(Color.parseColor(color));
             this.color = color;
         }
 
-        public Paint getBagPaint() {
-            return bagPaint;
-        }
 
-        public void setBagPaint(Paint bagPaint) {
-            this.bagPaint = bagPaint;
-        }
 
         public BeanBag(float bagX1, float bagY1) {
             this.bagX1 = bagX1;
