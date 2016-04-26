@@ -110,7 +110,19 @@ public class CornHoleView extends View implements View.OnTouchListener {
         Log.i("onDraw ", "X1 " + String.valueOf((float) (getLeft() + (getRight() - getLeft()) / 2.5)));
         Log.i("onDraw ","X2 " + (getHeight() - 1 - dpiBagPixels));
         Log.i("onDraw ","Y1 " + (float) (getLeft() + (getRight() - getLeft()) / 2.5 + dpiBagPixels));
-        Log.i("onDraw ","Y2 " + (getHeight() - 1));
+        Log.i("onDraw ", "Y2 " + (getHeight() - 1));
+
+    }
+
+    private void setBag(){
+        float bagX1 = (float)(getLeft() + (getRight() - getLeft()) / 2.5);
+        float bagY1 = getHeight() - 1 - dpiBagPixels;
+
+        bag = new BeanBag(bagX1, bagY1);
+
+        power =0;
+        direction=0;
+        temp=0;
 
     }
 
@@ -122,8 +134,9 @@ public class CornHoleView extends View implements View.OnTouchListener {
         float bagX1 = (float)(getLeft() + (getRight() - getLeft()) / 2.5);
         float bagY1 = getHeight() - 1 - dpiBagPixels;
 
-        bag.setBagX1(bagX1);
-        bag.setBagY1(bagY1);
+        bag = new BeanBag(bagX1, bagY1);
+
+
 
 
 
@@ -192,6 +205,7 @@ public class CornHoleView extends View implements View.OnTouchListener {
 
         bag = new BeanBag(bag.getBagX1(), bag.getBagY1(),bag.bagPaint);
         bags.add(bag);
+        setBag();
 
         invalidate();
 
@@ -257,19 +271,19 @@ public class CornHoleView extends View implements View.OnTouchListener {
 
     private int temp = 0;
     public class AnimationRunnable implements Runnable{
-        float bagX1,bagY1;
+        float bagx1,bagy1;
 
 
 
         @Override
         public void run() {
-            bagX1=bag.getBagX1();
-            bagX1+=direction;
-            bag.setBagX1(bagX1);
+            bagx1=bag.getBagX1();
+            bagx1+=direction;
+            bag.setBagX1(bagx1);
 
-            bagY1=bag.getBagY1();
-            bagY1=bagY1-5;
-            bag.setBagY1(bagY1);
+            bagy1=bag.getBagY1();
+            bagy1=bagy1-5;
+            bag.setBagY1(bagy1);
 
 
             if (power <= temp){
@@ -326,6 +340,11 @@ public class CornHoleView extends View implements View.OnTouchListener {
 
         public void setBagPaint(Paint bagPaint) {
             this.bagPaint = bagPaint;
+        }
+
+        public BeanBag(float bagX1, float bagY1) {
+            this.bagX1 = bagX1;
+            this.bagY1 = bagY1;
         }
 
         public BeanBag(float bagX1, float bagY1, Paint bagPaint) {
