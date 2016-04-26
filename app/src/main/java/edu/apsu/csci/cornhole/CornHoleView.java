@@ -21,7 +21,7 @@ public class CornHoleView extends View implements View.OnTouchListener {
     private AnimationRunnable animationRunnable;
 
 
-    private int round;
+
     private int power;
     private float direction;
 
@@ -35,7 +35,7 @@ public class CornHoleView extends View implements View.OnTouchListener {
     private Paint boardHolePaint;
     private Paint bagPaint;
     public float bagX1,bagY1;
-    //private Paint backgroundPaint;
+
 
     public CornHoleView(Context context) {
         super(context);
@@ -80,25 +80,13 @@ public class CornHoleView extends View implements View.OnTouchListener {
         dpiHolePixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpiHole,dm);
         dpiBagPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpiBag,dm);
 
-       /* backgroundPaint = new Paint();
-        backgroundPaint.setColor(Color.WHITE);
-        backgroundPaint.setStyle(Paint.Style.FILL);*/
-
-        /*bagX1 = (float)(getLeft() + (getRight() - getLeft()) / 2.5);
-        bagY1 = getHeight() - 1 - dpiBagPixels;
-        bagX2 = bagX1 + dpiBagPixels;
-        bagY2 = bagY1+dpiBagPixels;*/
         this.setOnTouchListener(this);
-
-
-
-
     }
 
     @Override
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
-        //canvas.drawPaint(backgroundPaint);
+
         canvas.drawRect(getLeft() + (getRight() - getLeft()) / 4, getTop() + (getBottom() - getTop()) / 200
                 , getLeft() + (getRight() - getLeft()) / 4 + dpiWidthPixels, getTop() + (getBottom() - getTop()) / 200 + dpiHeightPixels, boardPaint);
 
@@ -115,11 +103,6 @@ public class CornHoleView extends View implements View.OnTouchListener {
         Log.i("onDraw ","X2 " + (getHeight() - 1 - dpiBagPixels));
         Log.i("onDraw ","Y1 " + (float) (getLeft() + (getRight() - getLeft()) / 2.5 + dpiBagPixels));
         Log.i("onDraw ","Y2 " + (getHeight() - 1));
-
-
-        /*canvas.drawRect((float)(getLeft() + (getRight() - getLeft()) / 2.5),getHeight() - 1 - dpiBagPixels,
-                (float) (getLeft() + (getRight() - getLeft()) / 2.5 + dpiBagPixels),getHeight() - 1,bagPaint);*/
-
 
     }
 
@@ -189,7 +172,7 @@ public class CornHoleView extends View implements View.OnTouchListener {
             handler.post(animationRunnable);
         }
     }
-
+//
     public void stop() {
         if (handler != null) {
             handler = null;
