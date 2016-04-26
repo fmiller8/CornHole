@@ -253,7 +253,7 @@ public class CornHoleView extends View implements View.OnTouchListener {
             }
             temp=temp+2;
 
-
+//
 
 
             postInvalidate();
