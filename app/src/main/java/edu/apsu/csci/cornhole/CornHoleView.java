@@ -12,6 +12,8 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+
 /**
  * Created by Frank on 4/18/2016.
  */
@@ -30,11 +32,11 @@ public class CornHoleView extends View implements View.OnTouchListener {
     private float dpiHolePixels;
     private float dpiBagPixels;
 
-
+    BeanBag bag;
     private Paint boardPaint;
     private Paint boardHolePaint;
-    private Paint bagPaint;
-    public float bagX1,bagY1;
+    ArrayList<BeanBag> bags = new ArrayList<>();
+
 
 
     public CornHoleView(Context context) {
@@ -63,9 +65,11 @@ public class CornHoleView extends View implements View.OnTouchListener {
         boardHolePaint.setColor(Color.RED);
         boardHolePaint.setStyle(Paint.Style.FILL);
 
-        bagPaint = new Paint();
-        bagPaint.setColor(Color.BLACK);
-        bagPaint.setStyle(Paint.Style.FILL);
+
+
+
+
+
 
 
 
@@ -94,7 +98,11 @@ public class CornHoleView extends View implements View.OnTouchListener {
                 , (float) (getLeft() + (getRight() - getLeft()) / 2.5 + dpiHolePixels),
                 getTop() + (getBottom() - getTop()) / 40 + dpiHolePixels, boardHolePaint);
 
-        canvas.drawRect(bagX1, bagY1, bagX1 + dpiBagPixels, bagY1+dpiBagPixels, bagPaint);
+        canvas.drawRect(bag.getBagX1(), bag.getBagY1(), bag.getBagX1() + dpiBagPixels, bag.getBagY1()+dpiBagPixels, bag.bagPaint);
+
+        for (BeanBag b : bags) {//gets the values out of the arrayList to be drawn
+            canvas.drawRect(b.getBagX1(), b.getBagY1(), b.getBagX1() + dpiBagPixels, b.getBagY1()+dpiBagPixels, b.bagPaint);
+        }
 
         Log.i("onDraw ", "getLeft() " + getLeft());
         Log.i("Setup","getRight()"+ getRight());
@@ -111,8 +119,11 @@ public class CornHoleView extends View implements View.OnTouchListener {
         super.onSizeChanged(w, h, oldw, oldh);
 
 
-        bagX1 = (float)(getLeft() + (getRight() - getLeft()) / 2.5);
-        bagY1 = getHeight() - 1 - dpiBagPixels;
+        float bagX1 = (float)(getLeft() + (getRight() - getLeft()) / 2.5);
+        float bagY1 = getHeight() - 1 - dpiBagPixels;
+
+        bag.setBagX1(bagX1);
+        bag.setBagY1(bagY1);
 
 
 
@@ -178,6 +189,12 @@ public class CornHoleView extends View implements View.OnTouchListener {
             handler = null;
             animationRunnable = null;
         }
+
+        bag = new BeanBag(bag.getBagX1(), bag.getBagY1(),bag.bagPaint);
+        bags.add(bag);
+
+        invalidate();
+
     }
 
 
@@ -240,20 +257,27 @@ public class CornHoleView extends View implements View.OnTouchListener {
 
     private int temp = 0;
     public class AnimationRunnable implements Runnable{
+        float bagX1,bagY1;
 
 
 
         @Override
         public void run() {
-
+            bagX1=bag.getBagX1();
             bagX1+=direction;
+            bag.setBagX1(bagX1);
+
+            bagY1=bag.getBagY1();
             bagY1=bagY1-5;
+            bag.setBagY1(bagY1);
+
+
             if (power <= temp){
                 stop();
             }
             temp=temp+2;
 
-//
+
 
 
             postInvalidate();
@@ -262,6 +286,52 @@ public class CornHoleView extends View implements View.OnTouchListener {
             }
 
 
+        }
+    }
+
+    private class BeanBag{
+
+
+        private float bagX1,bagY1;
+        private String color;
+        Paint bagPaint = new Paint();
+
+        public float getBagX1() {
+            return bagX1;
+        }
+
+        public void setBagX1(float bagX1) {
+            this.bagX1 = bagX1;
+        }
+
+        public float getBagY1() {
+            return bagY1;
+        }
+
+        public void setBagY1(float bagY1) {
+            this.bagY1 = bagY1;
+        }
+
+        public String getColor() {
+            return color;
+        }
+
+        public void setColor(String color) {
+            this.color = color;
+        }
+
+        public Paint getBagPaint() {
+            return bagPaint;
+        }
+
+        public void setBagPaint(Paint bagPaint) {
+            this.bagPaint = bagPaint;
+        }
+
+        public BeanBag(float bagX1, float bagY1, Paint bagPaint) {
+            this.bagX1 = bagX1;
+            this.bagY1 = bagY1;
+            this.bagPaint = bagPaint;
         }
     }
 
