@@ -11,10 +11,10 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Frank on 4/18/2016.
@@ -27,7 +27,8 @@ public class CornHoleView extends View implements View.OnTouchListener {
     private int player1Score = 0;
     private int player2Score = 0;
 
-
+    private int temp = 0;
+    private float wind = randomNumber();
 
     private int power;
     private float direction;
@@ -297,6 +298,19 @@ public class CornHoleView extends View implements View.OnTouchListener {
                 direction = (int) (uX - dX)/20;
             }
 
+            if(direction > 0) {
+                direction = direction + wind;
+            }else if(direction < 0){
+                direction = direction - wind;
+            }else if (direction ==0){
+                float rand = randomNumber();
+                if (rand > 1.26){
+                    direction = direction + wind;
+                }else if(rand < 0.63){
+                    direction = direction - wind;
+                }
+            }
+
             Log.i("Direction", "Direction is " + direction);
 
             start();
@@ -306,15 +320,33 @@ public class CornHoleView extends View implements View.OnTouchListener {
 
     }
 
-    private int temp = 0;
+    public float randomNumber() {
+        float minX = 0.0f;
+        float maxX = 1.9f;
+
+        Random random = new Random();
+        float randomNum = random.nextFloat() * (maxX -minX) + minX;
+
+
+        return randomNum;
+    }
+
+
+
     public class AnimationRunnable implements Runnable{
         float bagx1,bagy1;
+
 
 
 
         @Override
         public void run() {
             bagx1=bag.getBagX1();
+
+
+            Log.i("run()","direction " + direction);
+            Log.i("run()","wind " + wind);
+
             bagx1+=direction;
             bag.setBagX1(bagx1);
 
