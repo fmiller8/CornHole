@@ -21,7 +21,7 @@ import java.util.Random;
  * Created by Frank on 4/18/2016.
  */
 public class CornHoleView extends View implements View.OnTouchListener {
-
+// jl
     private Handler handler;
     private AnimationRunnable animationRunnable;
 
