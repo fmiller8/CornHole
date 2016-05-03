@@ -11,6 +11,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 
 import java.util.ArrayList;
@@ -26,9 +27,11 @@ public class CornHoleView extends View implements View.OnTouchListener {
 
     private int player1Score = 0;
     private int player2Score = 0;
+    int id =1;
 
     private int temp = 0;
-    private float wind = randomNumber();
+    private float wind=0;
+    float rand;
 
     private int power;
     private float direction;
@@ -72,12 +75,8 @@ public class CornHoleView extends View implements View.OnTouchListener {
         boardHolePaint.setStyle(Paint.Style.FILL);
 
         setBag();
-
-
-
-
-
-
+        wind = randomNumber();
+        rand = randomNumber();
 
 
 
@@ -159,7 +158,7 @@ public class CornHoleView extends View implements View.OnTouchListener {
 
     }
 
-    int id =1;
+
 
 
 
@@ -241,13 +240,64 @@ public class CornHoleView extends View implements View.OnTouchListener {
         }
 
         bag = new BeanBag(bag.getBagX1(), bag.getBagY1(),bag.bagPaint);
+        if (bag.bagX1 >=(float) (getLeft() + (getRight() - getLeft())) / 2.5 &&
+                bag.bagX1 <=(float) (getLeft() + (getRight() - getLeft()) / 2.5) + dpiHolePixels ){
+            if (bag.bagY1 >=  getTop() + (getBottom() - getTop()) / 40 && bag.bagY1 <=  getTop() + (getBottom() - getTop()) / 40 + dpiHolePixels){
+               // bag.setColor("TRANSPARENT");
+                if (id == 1){
+                   player2Score += 3;
+
+                    GameActivity gameActivity = new GameActivity();
+
+                            gameActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    GameActivity game2Activity = new GameActivity();
+                                    game2Activity.setText(1,player2Score);
+                                }
+                            });
+
+
+
+
+
+
+                }else if (id == 2){
+                   player1Score +=3;
+                     GameActivity gameActivity = new GameActivity();
+
+                    gameActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            GameActivity game2Activity = new GameActivity();
+                          game2Activity.setText(2,player1Score);
+                        }
+                    });
+
+
+                }
+            }
+
+        }
         bags.add(bag);
+
+        /*canvas.drawRect(getLeft() + (getRight() - getLeft()) / 4, getTop() + (getBottom() - getTop()) / 200
+                , getLeft() + (getRight() - getLeft()) / 4 + dpiWidthPixels, getTop() + (getBottom() - getTop()) / 200 + dpiHeightPixels, boardPaint);
+
+       */
+
         setBag();
+        wind = randomNumber();
+        rand = randomNumber();
+
+
 
 
         invalidate();
 
     }
+
+
 
 
     float downX,downY,upX,upY;
@@ -298,18 +348,18 @@ public class CornHoleView extends View implements View.OnTouchListener {
                 direction = (int) (uX - dX)/20;
             }
 
-            if(direction > 0) {
+           /* if(direction > 0) {
                 direction = direction + wind;
             }else if(direction < 0){
                 direction = direction - wind;
-            }else if (direction ==0){
-                float rand = randomNumber();
+            }else if (direction ==0){*/
+
                 if (rand > 1.26){
                     direction = direction + wind;
                 }else if(rand < 0.63){
                     direction = direction - wind;
                 }
-            }
+         //   }
 
             Log.i("Direction", "Direction is " + direction);
 
@@ -399,6 +449,7 @@ public class CornHoleView extends View implements View.OnTouchListener {
 
         public void setColor(String color) {
             bagPaint.setColor(Color.parseColor(color));
+
             this.color = color;
         }
 

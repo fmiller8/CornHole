@@ -4,13 +4,39 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class GameActivity extends Activity {
+
+    TextView p2tv;
+    TextView p1tv;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+       p2tv = (TextView) findViewById(R.id.player2score_textView3);
+        p2tv.setText("0");
+
+
+        p1tv = (TextView) findViewById(R.id.player1score_textView);
+        p1tv.setText("0");
+
+
+    }
+
+    public void setText(int id, int score){
+        if (id == 1){
+           // p2tv = (TextView) findViewById(R.id.player2score_textView3);
+            p2tv.setText(Integer.toString(score));
+        }else if (id ==2) {
+           // p1tv = (TextView) findViewById(R.id.player1score_textView);
+            p1tv.setText(Integer.toString(score));
+        }
+
     }
 
     @Override
